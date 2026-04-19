@@ -15,12 +15,6 @@ export function EnhancedNeonHero() {
   const [confetti, setConfetti] = useState<Confetto[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (!section) return;
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePosition({
@@ -173,11 +167,9 @@ export function EnhancedNeonHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          <motion.button
-            onClick={() => {
-              triggerConfetti();
-              scrollToSection('take-action');
-            }}
+          <motion.a
+            href="#take-action"
+            onClick={triggerConfetti}
             className="px-12 py-6 text-xl font-black rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-orange-500 text-gray-900 shadow-lg shadow-cyan-400/50 hover:shadow-cyan-400/70 transition-all relative overflow-hidden"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
@@ -192,16 +184,16 @@ export function EnhancedNeonHero() {
               transition={{ duration: 2, repeat: Infinity }}
             />
             <span className="relative z-10">Start Your Journey</span>
-          </motion.button>
+          </motion.a>
 
-          <motion.button
-            onClick={() => scrollToSection('peace-history')}
+          <motion.a
+            href="#peace-history"
             className="px-12 py-6 text-xl font-black rounded-full border-2 border-white text-white hover:bg-white/10 transition-all"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
           >
             Learn More
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         {/* Stats */}
