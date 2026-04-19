@@ -1,235 +1,182 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type ContinentPulse = {
   id: string;
   name: string;
-  lat: number;
-  lon: number;
   color: string;
-  activity: number;
+  x: string;
+  y: string;
   voices: string;
   message: string;
-};
-
-type ProjectedContinent = ContinentPulse & {
-  x: number;
-  y: number;
-  depth: number;
-  visible: boolean;
-  scale: number;
+  strength: number;
 };
 
 const continents: ContinentPulse[] = [
   {
     id: 'north-america',
     name: 'North America',
-    lat: 42,
-    lon: -102,
-    color: '#67e8f9',
-    activity: 0.84,
+    color: '#7dd3fc',
+    x: '29%',
+    y: '31%',
     voices: '12.4M voices linked',
-    message: 'Grassroots organizing and public storytelling are surging across the continent.',
+    message: 'Grassroots storytelling and cross-border collaboration are glowing strongly here.',
+    strength: 84,
   },
   {
     id: 'south-america',
     name: 'South America',
-    lat: -15,
-    lon: -60,
     color: '#fb7185',
-    activity: 0.76,
+    x: '37%',
+    y: '63%',
     voices: '8.9M voices linked',
-    message: 'Community-led art and climate solidarity are feeding a stronger peace signal.',
+    message: 'Creative action and community resilience are sending a vivid southern pulse.',
+    strength: 76,
   },
   {
     id: 'europe',
     name: 'Europe',
-    lat: 51,
-    lon: 15,
     color: '#c084fc',
-    activity: 0.71,
+    x: '55%',
+    y: '28%',
     voices: '9.6M voices linked',
-    message: 'Cross-border dialogue networks are amplifying cooperation faster than conflict.',
+    message: 'Dialogue networks and civic exchange are keeping the signal bright.',
+    strength: 71,
   },
   {
     id: 'africa',
     name: 'Africa',
-    lat: 7,
-    lon: 21,
-    color: '#f97316',
-    activity: 0.88,
+    color: '#fb923c',
+    x: '54%',
+    y: '48%',
     voices: '15.2M voices linked',
-    message: 'Youth participation, local peace hubs, and mutual aid are driving the strongest pulse.',
+    message: 'Youth energy and local peace hubs are driving one of the strongest resonances.',
+    strength: 88,
   },
   {
     id: 'asia',
     name: 'Asia',
-    lat: 28,
-    lon: 97,
     color: '#2dd4bf',
-    activity: 0.94,
+    x: '71%',
+    y: '36%',
     voices: '24.7M voices linked',
-    message: 'Mass participation and digital coordination are generating the planet’s brightest resonance.',
+    message: 'Mass participation and digital coordination are generating the brightest global pulse.',
+    strength: 94,
   },
   {
     id: 'oceania',
     name: 'Oceania',
-    lat: -24,
-    lon: 135,
     color: '#4ade80',
-    activity: 0.63,
+    x: '81%',
+    y: '70%',
     voices: '4.1M voices linked',
-    message: 'Smaller populations are still producing clear, persistent continental signal strength.',
+    message: 'Smaller populations are still creating a clear and elegant resonance field.',
+    strength: 63,
   },
 ];
 
-function projectContinent(continent: ContinentPulse, rotationDeg: number): ProjectedContinent {
-  const radius = 180;
-  const lat = (continent.lat * Math.PI) / 180;
-  const lon = ((continent.lon + rotationDeg) * Math.PI) / 180;
-
-  const x3d = radius * Math.cos(lat) * Math.sin(lon);
-  const y3d = -radius * Math.sin(lat);
-  const z3d = radius * Math.cos(lat) * Math.cos(lon);
-  const scale = Math.max(0.52, 0.82 + (z3d / radius) * 0.2);
-
-  return {
-    ...continent,
-    x: x3d,
-    y: y3d,
-    depth: z3d,
-    visible: z3d > -48,
-    scale,
-  };
-}
+const ribbons = [
+  {
+    id: 'cyan',
+    className:
+      'h-12 w-[26rem] bg-[linear-gradient(90deg,transparent,rgba(103,232,249,0.95),rgba(34,211,238,0.8),transparent)]',
+    style: { top: '45%', left: '-8%', rotate: '-18deg' },
+    duration: 8,
+  },
+  {
+    id: 'pink',
+    className:
+      'h-10 w-[24rem] bg-[linear-gradient(90deg,transparent,rgba(244,114,182,0.9),rgba(236,72,153,0.78),transparent)]',
+    style: { top: '52%', left: '-2%', rotate: '12deg' },
+    duration: 9,
+  },
+  {
+    id: 'orange',
+    className:
+      'h-10 w-[25rem] bg-[linear-gradient(90deg,transparent,rgba(251,146,60,0.9),rgba(253,186,116,0.72),transparent)]',
+    style: { top: '58%', left: '6%', rotate: '-10deg' },
+    duration: 10,
+  },
+];
 
 export function AdvancedVibeCheckGlobe() {
-  const [rotation, setRotation] = useState(0);
-  const [activeIds, setActiveIds] = useState<string[]>(['asia', 'africa', 'north-america']);
   const [selectedId, setSelectedId] = useState<string>('asia');
+  const [activeIds, setActiveIds] = useState<string[]>(['asia', 'africa', 'north-america']);
   const [waveKey, setWaveKey] = useState(0);
 
   useEffect(() => {
-    const rotationTimer = window.setInterval(() => {
-      setRotation((prev) => (prev + 0.24) % 360);
-    }, 40);
-
     const pulseTimer = window.setInterval(() => {
-      const next = [...continents].sort(() => Math.random() - 0.5).slice(0, 3).map((continent) => continent.id);
+      const shuffled = [...continents].sort(() => Math.random() - 0.5);
+      const next = shuffled.slice(0, 3).map((continent) => continent.id);
       setActiveIds(next);
       setSelectedId(next[0]);
-    }, 2600);
+    }, 3200);
 
     const waveTimer = window.setInterval(() => {
       const next = continents[Math.floor(Math.random() * continents.length)];
       setSelectedId(next.id);
       setWaveKey((prev) => prev + 1);
-    }, 5200);
+    }, 5800);
 
     return () => {
-      window.clearInterval(rotationTimer);
       window.clearInterval(pulseTimer);
       window.clearInterval(waveTimer);
     };
   }, []);
 
-  const projected = useMemo(
-    () => continents.map((continent) => projectContinent(continent, rotation)).sort((a, b) => a.depth - b.depth),
-    [rotation]
-  );
-
-  const selected = projected.find((continent) => continent.id === selectedId) ?? projected[0];
+  const selected = continents.find((continent) => continent.id === selectedId) ?? continents[0];
 
   return (
     <div className="w-full max-w-6xl mx-auto">
       <motion.div
-        className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_rgba(255,255,255,0.04)_28%,_rgba(7,10,24,0.95)_70%),linear-gradient(135deg,_rgba(8,145,178,0.12),_rgba(76,29,149,0.1)_48%,_rgba(234,88,12,0.1)_100%)] p-6 shadow-[0_35px_90px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-8"
+        className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[#08101d] p-6 shadow-[0_35px_90px_rgba(0,0,0,0.45)] md:p-8"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,_rgba(103,232,249,0.18),_transparent_24%),radial-gradient(circle_at_86%_20%,_rgba(192,132,252,0.14),_transparent_20%),radial-gradient(circle_at_50%_100%,_rgba(249,115,22,0.12),_transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[url('/vibe-globe-reference.png')] bg-cover bg-center opacity-[0.14]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(34,211,238,0.16),transparent_25%),radial-gradient(circle_at_82%_18%,rgba(244,114,182,0.12),transparent_18%),radial-gradient(circle_at_58%_84%,rgba(251,146,60,0.12),transparent_26%),linear-gradient(135deg,rgba(7,11,24,0.88),rgba(8,16,29,0.72)_35%,rgba(11,15,27,0.92)_100%)]" />
 
-        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.18fr_0.82fr] lg:items-center">
           <div className="relative">
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <div className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-xs font-accent uppercase tracking-[0.32em] text-cyan-200">
-                Continental Resonance
+                Real-Time Global Connectivity
               </div>
               <div className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-accent uppercase tracking-[0.25em] text-white/70">
-                Earth Texture Globe
+                Harmony Pulse
               </div>
             </div>
 
-            <div className="relative mx-auto aspect-square max-w-[30rem]">
-              <div className="absolute inset-[-7%] rounded-full bg-[radial-gradient(circle,_rgba(34,211,238,0.18),_transparent_58%)] blur-3xl" />
-              <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_180deg,_rgba(34,211,238,0.16),_rgba(59,130,246,0.1),_rgba(168,85,247,0.12),_rgba(34,211,238,0.16))] blur-2xl opacity-70" />
+            <div className="relative mx-auto aspect-square max-w-[32rem]">
+              <div className="absolute inset-[-10%] rounded-full bg-[radial-gradient(circle,rgba(45,212,191,0.22),transparent_50%)] blur-3xl" />
+              <div className="absolute inset-[-6%] rounded-full bg-[conic-gradient(from_180deg,rgba(34,211,238,0.18),rgba(232,121,249,0.18),rgba(251,146,60,0.16),rgba(34,211,238,0.18))] blur-2xl opacity-80" />
 
               <motion.div
-                className="absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-100/12"
+                className="absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
               />
-              <motion.div
-                className="absolute left-1/2 top-1/2 h-[23rem] w-[14rem] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-white/10"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute left-1/2 top-1/2 h-[14rem] w-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-white/10"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              />
 
-              <div className="absolute inset-[7%] overflow-hidden rounded-full border border-white/15 shadow-[inset_0_2px_40px_rgba(255,255,255,0.12),inset_0_-40px_80px_rgba(3,7,18,0.85),0_0_50px_rgba(34,211,238,0.16)]">
-                <motion.div
-                  className="absolute inset-0 scale-[1.12] rounded-full"
-                  style={{
-                    backgroundImage: "url('/earth/earth-albedo.jpg')",
-                    backgroundRepeat: 'repeat-x',
-                    backgroundSize: '200% 100%',
-                    filter: 'saturate(1.1) contrast(1.05)',
-                  }}
-                  animate={{ backgroundPositionX: ['0%', '200%'] }}
-                  transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-                />
-                <motion.div
-                  className="absolute inset-0 scale-[1.12] rounded-full mix-blend-screen opacity-55"
-                  style={{
-                    backgroundImage: "url('/earth/earth-night-lights.png')",
-                    backgroundRepeat: 'repeat-x',
-                    backgroundSize: '200% 100%',
-                    filter: 'saturate(1.6)',
-                  }}
-                  animate={{ backgroundPositionX: ['0%', '200%'] }}
-                  transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-                />
-                <motion.div
-                  className="absolute inset-0 scale-[1.12] rounded-full mix-blend-screen opacity-35"
-                  style={{
-                    backgroundImage: "url('/earth/earth-land-ocean-mask.png')",
-                    backgroundRepeat: 'repeat-x',
-                    backgroundSize: '200% 100%',
-                  }}
-                  animate={{ backgroundPositionX: ['0%', '200%'] }}
-                  transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-                />
-                <motion.div
-                  className="absolute inset-[-4%] rounded-full opacity-35"
-                  style={{
-                    backgroundImage: "url('/earth/earth-clouds.png')",
-                    backgroundRepeat: 'repeat-x',
-                    backgroundSize: '200% 100%',
-                    mixBlendMode: 'screen',
-                  }}
-                  animate={{ backgroundPositionX: ['0%', '200%'] }}
-                  transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
-                />
+              <div className="absolute inset-[9%] overflow-hidden rounded-full border border-white/18 shadow-[inset_0_2px_40px_rgba(255,255,255,0.16),inset_0_-45px_90px_rgba(4,8,20,0.88),0_0_50px_rgba(45,212,191,0.16)]">
+                <div className="absolute inset-0 scale-[1.08] rounded-full bg-[url('/earth/earth-albedo.jpg')] bg-cover bg-center opacity-[0.78]" />
+                <div className="absolute inset-0 scale-[1.08] rounded-full bg-[url('/earth/earth-night-lights.png')] bg-cover bg-center mix-blend-screen opacity-[0.68]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_36%_25%,rgba(255,255,255,0.3),transparent_18%),radial-gradient(circle_at_72%_72%,rgba(255,255,255,0.08),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_40%,rgba(0,0,0,0.2)_100%)]" />
 
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_26%,_rgba(255,255,255,0.34),_transparent_18%),radial-gradient(circle_at_70%_72%,_rgba(255,255,255,0.08),_transparent_30%),linear-gradient(135deg,_rgba(255,255,255,0.08),_transparent_38%,_rgba(0,0,0,0.18)_100%)]" />
-                <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-100/20 to-transparent" />
-                <div className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan-100/16 to-transparent" />
+                {ribbons.map((ribbon, index) => (
+                  <motion.div
+                    key={ribbon.id}
+                    className={`absolute rounded-full blur-[10px] ${ribbon.className}`}
+                    style={ribbon.style}
+                    animate={{
+                      x: ['-3%', '8%', '-2%'],
+                      y: [0, index % 2 === 0 ? -12 : 12, 0],
+                      opacity: [0.55, 0.92, 0.55],
+                    }}
+                    transition={{ duration: ribbon.duration, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                ))}
 
                 <AnimatePresence>
                   <motion.div
@@ -238,88 +185,50 @@ export function AdvancedVibeCheckGlobe() {
                     initial={{ opacity: 0.95 }}
                     animate={{ opacity: 0 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 2.8, ease: 'easeOut' }}
+                    transition={{ duration: 2.6, ease: 'easeOut' }}
                   >
                     <motion.div
                       className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-200/80"
-                      initial={{ scale: 0.35, opacity: 0.95 }}
-                      animate={{ scale: 5.8, opacity: 0 }}
-                      transition={{ duration: 2.4, ease: 'easeOut' }}
+                      initial={{ scale: 0.45, opacity: 0.92 }}
+                      animate={{ scale: 5.5, opacity: 0 }}
+                      transition={{ duration: 2.2, ease: 'easeOut' }}
                     />
                     <motion.div
-                      className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-fuchsia-300/70"
-                      initial={{ scale: 0.42, opacity: 0.82 }}
-                      animate={{ scale: 4.9, opacity: 0 }}
-                      transition={{ duration: 2, delay: 0.12, ease: 'easeOut' }}
-                    />
-                    <motion.div
-                      className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-orange-300/65"
-                      initial={{ scale: 0.48, opacity: 0.74 }}
-                      animate={{ scale: 4.2, opacity: 0 }}
-                      transition={{ duration: 1.7, delay: 0.22, ease: 'easeOut' }}
+                      className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-pink-300/70"
+                      initial={{ scale: 0.52, opacity: 0.75 }}
+                      animate={{ scale: 4.7, opacity: 0 }}
+                      transition={{ duration: 1.9, delay: 0.12, ease: 'easeOut' }}
                     />
                   </motion.div>
                 </AnimatePresence>
 
-                {projected
-                  .filter((continent) => continent.visible && activeIds.includes(continent.id))
-                  .map((continent) => {
-                    const length = Math.sqrt(continent.x * continent.x + continent.y * continent.y);
-                    const angle = (Math.atan2(continent.y, continent.x) * 180) / Math.PI;
-
-                    return (
-                      <motion.div
-                        key={`beam-${continent.id}`}
-                        className="absolute left-1/2 top-1/2 h-px origin-left"
-                        style={{
-                          width: length,
-                          rotate: `${angle}deg`,
-                          background: `linear-gradient(90deg, rgba(255,255,255,0.08), ${continent.color})`,
-                          opacity: 0.6,
-                        }}
-                        animate={{ opacity: [0.2, 0.75, 0.2] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                      />
-                    );
-                  })}
-
-                {projected.map((continent) => {
+                {continents.map((continent) => {
                   const isActive = activeIds.includes(continent.id);
-                  const isSelected = continent.id === selectedId;
+                  const isSelected = selectedId === continent.id;
 
                   return (
                     <motion.button
                       key={continent.id}
                       className="absolute rounded-full"
-                      style={{
-                        left: `calc(50% + ${continent.x}px)`,
-                        top: `calc(50% + ${continent.y}px)`,
-                        transform: 'translate(-50%, -50%)',
-                        pointerEvents: continent.visible ? 'auto' : 'none',
-                        opacity: continent.visible ? 1 : 0,
-                      }}
+                      style={{ left: continent.x, top: continent.y, transform: 'translate(-50%, -50%)' }}
                       onMouseEnter={() => setSelectedId(continent.id)}
                       whileHover={{ scale: 1.08 }}
                     >
                       <motion.div
-                        className="relative rounded-full"
-                        animate={
-                          isActive
-                            ? { scale: [continent.scale, continent.scale * 1.28, continent.scale] }
-                            : { scale: continent.scale }
-                        }
-                        transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
+                        className="relative"
+                        animate={isActive ? { scale: [1, 1.28, 1] } : { scale: 1 }}
+                        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                       >
                         <motion.div
                           className="absolute left-1/2 top-1/2 rounded-full blur-md"
                           style={{
-                            width: isSelected ? 42 : 30,
-                            height: isSelected ? 42 : 30,
+                            width: isSelected ? 48 : 34,
+                            height: isSelected ? 48 : 34,
                             backgroundColor: continent.color,
                             transform: 'translate(-50%, -50%)',
                           }}
-                          animate={isActive ? { opacity: [0.28, 0.85, 0.28] } : { opacity: [0.12, 0.34, 0.12] }}
-                          transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+                          animate={isActive ? { opacity: [0.24, 0.88, 0.24] } : { opacity: [0.12, 0.3, 0.12] }}
+                          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
                         />
                         <div
                           className="relative rounded-full border border-white/80"
@@ -327,7 +236,7 @@ export function AdvancedVibeCheckGlobe() {
                             width: isSelected ? 18 : 12,
                             height: isSelected ? 18 : 12,
                             backgroundColor: continent.color,
-                            boxShadow: `0 0 22px ${continent.color}`,
+                            boxShadow: `0 0 24px ${continent.color}`,
                           }}
                         />
                       </motion.div>
@@ -335,11 +244,9 @@ export function AdvancedVibeCheckGlobe() {
                   );
                 })}
 
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_22%,_rgba(255,255,255,0.3),_transparent_16%),linear-gradient(135deg,_rgba(255,255,255,0.1),_transparent_38%,_rgba(255,255,255,0.02)_70%,_rgba(0,0,0,0.14)_100%)]" />
+                <div className="pointer-events-none absolute left-[18%] top-[14%] h-24 w-24 rounded-full border border-white/12 bg-white/8 blur-2xl" />
+                <div className="pointer-events-none absolute bottom-[8%] right-[14%] h-24 w-24 rounded-full bg-cyan-300/12 blur-3xl" />
               </div>
-
-              <div className="pointer-events-none absolute left-[16%] top-[15%] h-28 w-28 rounded-full border border-white/12 bg-white/8 blur-2xl" />
-              <div className="pointer-events-none absolute bottom-[10%] right-[16%] h-24 w-24 rounded-full bg-cyan-300/10 blur-3xl" />
             </div>
           </div>
 
@@ -347,30 +254,30 @@ export function AdvancedVibeCheckGlobe() {
             <div>
               <p className="text-sm font-accent uppercase tracking-[0.28em] text-cyan-300">The Vibe-Check Globe</p>
               <h3 className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">
-                A continent-scale Earth that feels alive, responsive, and worth looking at.
+                A colorful living orb that feels premium without dragging the whole page.
               </h3>
               <p className="mt-4 text-base leading-7 text-white/76">
-                This version uses real Earth textures from your model package, tracks continental resonance instead of city dots, and turns each new contribution into a visible wave across the planet.
+                This version is lighter on the browser, more neon and gradient-driven, and visually closer to your reference. The globe now reads as a glass pulse instrument instead of a heavy simulation.
               </p>
             </div>
 
             <div className="grid gap-3">
               <div className="rounded-2xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Real Earth Surface</p>
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Lighter Rendering</p>
                 <p className="mt-2 text-sm leading-6 text-white/78">
-                  Albedo, night-light, and cloud textures make the globe read as Earth instead of a generic abstract orb.
+                  The constant geometry-style re-projection is gone. The section now uses minimal state updates and smoother visual layers.
                 </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Continent-Based Pulse</p>
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Colorful Harmony Trails</p>
                 <p className="mt-2 text-sm leading-6 text-white/78">
-                  The interaction now tracks continents as living regions, which is easier to understand and visually cleaner than city-level noise.
+                  Neon cyan, pink, and amber ribbons create the symphony effect and make the globe feel more alive and attractive.
                 </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Symphony Wave</p>
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/55">Continent Pulse</p>
                 <p className="mt-2 text-sm leading-6 text-white/78">
-                  Every voice triggers a multi-ring resonance bloom that spreads across the surface like a shared emotional signal.
+                  Continents still behave like live nodes, but the presentation is cleaner and easier to understand.
                 </p>
               </div>
             </div>
@@ -379,8 +286,8 @@ export function AdvancedVibeCheckGlobe() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-accent uppercase tracking-[0.28em] text-cyan-300">Current Continent</p>
-                  <p className="mt-2 text-2xl font-black text-white">{selected?.name}</p>
-                  <p className="mt-1 text-sm text-white/65">{selected?.voices}</p>
+                  <p className="mt-2 text-2xl font-black text-white">{selected.name}</p>
+                  <p className="mt-1 text-sm text-white/65">{selected.voices}</p>
                 </div>
                 <button
                   type="button"
@@ -395,17 +302,17 @@ export function AdvancedVibeCheckGlobe() {
                   Send A Voice
                 </button>
               </div>
-              <p className="mt-4 text-sm leading-6 text-white/78">{selected?.message}</p>
+              <p className="mt-4 text-sm leading-6 text-white/78">{selected.message}</p>
               <div className="mt-4">
                 <div className="flex items-center justify-between text-xs font-accent uppercase tracking-[0.22em] text-white/50">
                   <span>Signal Strength</span>
-                  <span>{Math.round((selected?.activity ?? 0.8) * 100)}%</span>
+                  <span>{selected.strength}%</span>
                 </div>
                 <div className="mt-2 h-2 rounded-full bg-white/10">
                   <motion.div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,_#67e8f9,_#a78bfa,_#f97316)]"
-                    animate={{ width: `${Math.round((selected?.activity ?? 0.8) * 100)}%` }}
-                    transition={{ duration: 0.55, ease: 'easeOut' }}
+                    className="h-full rounded-full bg-[linear-gradient(90deg,_#67e8f9,_#f472b6,_#fb923c)]"
+                    animate={{ width: `${selected.strength}%` }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
                   />
                 </div>
               </div>

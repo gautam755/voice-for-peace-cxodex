@@ -241,7 +241,7 @@ export default function Home() {
               The Vibe-Check Globe
             </h2>
             <p className="text-xl text-gray-300 font-accent">
-              Explore global peace pulses. Hover over cities to see messages from peace advocates worldwide.
+              Explore continent-scale peace pulses with a lighter, more colorful global resonance display.
             </p>
           </motion.div>
           <AdvancedVibeCheckGlobe />
