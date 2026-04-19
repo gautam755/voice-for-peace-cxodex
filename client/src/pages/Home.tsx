@@ -1,6 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { useAuth } from '@/_core/hooks/useAuth';
+import { motion } from 'framer-motion';
 import { EnhancedNeonHero } from '@/components/EnhancedNeonHero';
 import { EnhancedGallery } from '@/components/EnhancedGallery';
 import { NeonPeaceWall } from '@/components/NeonPeaceWall';
@@ -8,9 +6,7 @@ import { AdvancedPeacePainter } from '@/components/AdvancedPeacePainter';
 import { AdvancedHarmonyHit } from '@/components/AdvancedHarmonyHit';
 import { AdvancedVibeCheckGlobe } from '@/components/AdvancedVibeCheckGlobe';
 import { EnhancedKindnessQuest } from '@/components/EnhancedKindnessQuest';
-import { Timeline } from '@/components/Timeline';
 import TakeAction from '@/components/TakeAction';
-import MeshyModelViewer from '@/components/MeshyModelViewer';
 
 /**
  * DESIGN PHILOSOPHY: Premium Digital Art Gallery for Global Peace
@@ -60,11 +56,6 @@ const timelineItems = [
 ];
 
 export default function Home() {
-  const { user } = useAuth();
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
   const sectionShell =
     'relative py-24 px-4 overflow-hidden border-y border-white/10';
   const liquidBackground =
@@ -76,7 +67,6 @@ export default function Home() {
 
   return (
     <div
-      ref={containerRef}
       className="relative w-full overflow-hidden bg-[linear-gradient(180deg,_#04070f_0%,_#080b17_50%,_#05070f_100%)] text-white"
     >
       <div className="relative z-10">
@@ -89,7 +79,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: false, margin: '-100px' }}
+        viewport={{ once: true, margin: '-100px' }}
       >
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
@@ -97,7 +87,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
           >
             <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-cyan-400 via-purple-500 to-orange-500 bg-clip-text text-transparent">
               Global Harmony Gallery
@@ -112,11 +102,12 @@ export default function Home() {
 
       {/* Timeline Section */}
       <motion.section 
+        id="peace-history"
         className={`${sectionShell} ${harmonyBackground}`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: false, margin: '-100px' }}
+        viewport={{ once: true, margin: '-100px' }}
       >
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
@@ -124,7 +115,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
           >
             <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
               Peace Through History
@@ -142,7 +133,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
-                viewport={{ once: false, margin: '-100px' }}
+                viewport={{ once: true, margin: '-100px' }}
                 whileHover={{ scale: 1.05, borderColor: 'rgba(34, 211, 238, 0.8)' }}
               >
                 <div className="text-5xl mb-4">{item.icon}</div>
@@ -161,7 +152,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: false, margin: '-100px' }}
+        viewport={{ once: true, margin: '-100px' }}
       >
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
@@ -169,7 +160,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
           >
             <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent">
               Neon Peace Wall
@@ -188,7 +179,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: false, margin: '-100px' }}
+        viewport={{ once: true, margin: '-100px' }}
       >
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
@@ -196,7 +187,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
           >
             <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
               The Peace-Painter
@@ -215,7 +206,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: false, margin: '-100px' }}
+        viewport={{ once: true, margin: '-100px' }}
       >
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
@@ -223,7 +214,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: false, margin: '-100px' }}
+            viewport={{ once: true, margin: '-100px' }}
           >
             <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
               The Harmony Hit
@@ -337,11 +328,10 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Meshy 3D Model Viewer */}
-      <MeshyModelViewer />
-
       {/* Take Action Section */}
-      <TakeAction />
+      <div id="take-action">
+        <TakeAction />
+      </div>
       </div>
     </div>
   );

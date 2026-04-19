@@ -15,6 +15,12 @@ export function EnhancedNeonHero() {
   const [confetti, setConfetti] = useState<Confetto[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePosition({
@@ -50,7 +56,7 @@ export function EnhancedNeonHero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           aria-hidden="true"
         >
           <source src="/landing-background.mp4" type="video/mp4" />
@@ -168,7 +174,10 @@ export function EnhancedNeonHero() {
           transition={{ delay: 0.6, duration: 0.8 }}
         >
           <motion.button
-            onClick={triggerConfetti}
+            onClick={() => {
+              triggerConfetti();
+              scrollToSection('take-action');
+            }}
             className="px-12 py-6 text-xl font-black rounded-full bg-gradient-to-r from-cyan-400 via-purple-500 to-orange-500 text-gray-900 shadow-lg shadow-cyan-400/50 hover:shadow-cyan-400/70 transition-all relative overflow-hidden"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
@@ -186,6 +195,7 @@ export function EnhancedNeonHero() {
           </motion.button>
 
           <motion.button
+            onClick={() => scrollToSection('peace-history')}
             className="px-12 py-6 text-xl font-black rounded-full border-2 border-white text-white hover:bg-white/10 transition-all"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
