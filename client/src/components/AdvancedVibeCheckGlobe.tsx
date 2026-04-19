@@ -111,9 +111,9 @@ const atmosphereSpecks = [
 ];
 
 function projectContinent(continent: ContinentPulse, rotation: number): ProjectedContinent {
-  const radius = 214;
+  const radius = 206;
   const lat = (continent.lat * Math.PI) / 180;
-  const lon = ((continent.lon + rotation) * Math.PI) / 180;
+  const lon = ((continent.lon - rotation) * Math.PI) / 180;
 
   const x3d = radius * Math.cos(lat) * Math.sin(lon);
   const y3d = -radius * Math.sin(lat);
@@ -138,8 +138,8 @@ export function AdvancedVibeCheckGlobe() {
 
   useEffect(() => {
     const rotationTimer = window.setInterval(() => {
-      setRotation((prev) => (prev + 0.55) % 360);
-    }, 90);
+      setRotation((prev) => (prev + 0.42) % 360);
+    }, 120);
 
     const pulseTimer = window.setInterval(() => {
       const shuffled = [...continents].sort(() => Math.random() - 0.5);
@@ -158,8 +158,8 @@ export function AdvancedVibeCheckGlobe() {
   );
 
   const selected = projectedContinents.find((continent) => continent.id === selectedId) ?? projectedContinents[0];
-  const earthShift = `${(rotation / 360) * 200}%`;
-  const cloudShift = `${(rotation / 360) * 220}%`;
+  const earthShift = `${100 - (rotation / 360) * 200}%`;
+  const cloudShift = `${110 - (rotation / 360) * 220}%`;
 
   return (
     <div className="mx-auto w-full max-w-7xl">
@@ -183,20 +183,20 @@ export function AdvancedVibeCheckGlobe() {
               </div>
             </div>
 
-            <div className="absolute left-[1rem] top-[8rem] hidden w-56 rounded-[1.25rem] border border-white/10 bg-white/6 p-4 backdrop-blur-xl lg:block">
-              <p className="text-xs font-accent uppercase tracking-[0.24em] text-white/45">Interaction</p>
-              <p className="mt-3 text-sm leading-6 text-white/72">
+            <div className="absolute left-[1rem] top-[8rem] z-30 hidden w-56 rounded-[1.25rem] border border-cyan-300/20 bg-[linear-gradient(135deg,rgba(16,185,129,0.16),rgba(34,211,238,0.12),rgba(255,255,255,0.06))] p-4 shadow-[0_18px_45px_rgba(0,0,0,0.28)] backdrop-blur-xl lg:block">
+              <p className="text-xs font-accent uppercase tracking-[0.24em] text-cyan-100/80">Interaction</p>
+              <p className="mt-3 text-sm leading-6 text-white/82">
                 Click any continent marker to inspect what Voice for Peace activity is happening there right now.
               </p>
             </div>
 
-            <div className="absolute right-[0.5rem] top-[12.5rem] hidden w-64 rounded-[1.25rem] border border-white/10 bg-white/6 p-4 backdrop-blur-xl lg:block">
-              <p className="text-xs font-accent uppercase tracking-[0.24em] text-white/45">Live Feed</p>
+            <div className="absolute right-[0.5rem] top-[12.5rem] z-30 hidden w-64 rounded-[1.25rem] border border-fuchsia-300/20 bg-[linear-gradient(135deg,rgba(244,114,182,0.16),rgba(59,130,246,0.12),rgba(255,255,255,0.06))] p-4 shadow-[0_18px_45px_rgba(0,0,0,0.28)] backdrop-blur-xl lg:block">
+              <p className="text-xs font-accent uppercase tracking-[0.24em] text-fuchsia-100/80">Live Feed</p>
               <p className="mt-2 text-lg font-black text-white">{selected.name} | Harmony Pulse</p>
-              <p className="mt-2 text-sm leading-6 text-white/72">{selected.voices}</p>
+              <p className="mt-2 text-sm leading-6 text-white/82">{selected.voices}</p>
             </div>
 
-            <div className="relative mx-auto mt-6 aspect-square max-w-[40rem]">
+            <div className="relative z-10 mx-auto mt-6 aspect-square max-w-[40rem]">
               <div className="absolute inset-[-8%] rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.12),transparent_52%)] blur-3xl" />
               <div className="absolute inset-[-5%] rounded-full bg-[conic-gradient(from_180deg,rgba(34,211,238,0.14),rgba(244,114,182,0.1),rgba(251,146,60,0.1),rgba(34,211,238,0.14))] blur-2xl" />
 
@@ -230,7 +230,7 @@ export function AdvancedVibeCheckGlobe() {
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_34%,transparent_0%,transparent_36%,rgba(4,10,24,0.18)_58%,rgba(3,8,20,0.62)_90%)]" />
 
                   {atmosphereSpecks.map((star, index) => (
-                    <motion.div
+                    <div
                       key={`${star.left}-${star.top}-${index}`}
                       className="absolute rounded-full"
                       style={{
@@ -241,8 +241,6 @@ export function AdvancedVibeCheckGlobe() {
                         backgroundColor: star.color,
                         boxShadow: `0 0 ${star.size * 10}px ${star.color}`,
                       }}
-                      animate={{ opacity: [0.25, 1, 0.25], scale: [1, 1.4, 1] }}
-                      transition={{ duration: 2 + index * 0.22, repeat: Infinity, ease: 'easeInOut' }}
                     />
                   ))}
 
@@ -325,56 +323,56 @@ export function AdvancedVibeCheckGlobe() {
           </div>
 
           <div className="relative z-10 space-y-5">
-            <div>
-              <p className="text-sm font-accent uppercase tracking-[0.3em] text-cyan-300">The Vibe-Check Globe</p>
-              <h3 className="mt-3 text-4xl font-black leading-[1.02] text-white md:text-5xl">
+            <div className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.12),rgba(168,85,247,0.12),rgba(251,146,60,0.12))] p-6 shadow-[0_22px_50px_rgba(0,0,0,0.22)] backdrop-blur-md">
+              <p className="text-sm font-accent uppercase tracking-[0.3em] text-cyan-200">The Vibe-Check Globe</p>
+              <h3 className="mt-3 bg-[linear-gradient(90deg,#a5f3fc_0%,#f9a8d4_45%,#fdba74_100%)] bg-clip-text text-4xl font-black leading-[1.02] text-transparent md:text-5xl">
                 A realistic Earth pulse with living continent signals.
               </h3>
-              <p className="mt-5 text-lg leading-8 text-white/74">
+              <p className="mt-5 text-lg leading-8 text-white/82">
                 This version brings back a more realistic Earth-style surface, keeps the globe rotating, and lets every
                 continent reveal its live Voice for Peace signal when clicked.
               </p>
             </div>
 
             <div className="grid gap-4">
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/50">Realistic Surface</p>
-                <p className="mt-3 text-sm leading-6 text-white/78">
+              <div className="rounded-[1.5rem] border border-cyan-300/16 bg-[linear-gradient(135deg,rgba(34,211,238,0.16),rgba(59,130,246,0.08),rgba(255,255,255,0.04))] p-5 backdrop-blur-sm">
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-cyan-100/70">Realistic Surface</p>
+                <p className="mt-3 text-sm leading-6 text-white/84">
                   The globe now uses real Earth textures with day color, night lights, cloud cover, atmosphere, and a glass shell.
                 </p>
               </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/50">Seven Continents</p>
-                <p className="mt-3 text-sm leading-6 text-white/78">
+              <div className="rounded-[1.5rem] border border-fuchsia-300/16 bg-[linear-gradient(135deg,rgba(244,114,182,0.16),rgba(168,85,247,0.08),rgba(255,255,255,0.04))] p-5 backdrop-blur-sm">
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-fuchsia-100/70">Seven Continents</p>
+                <p className="mt-3 text-sm leading-6 text-white/84">
                   North America, South America, Europe, Africa, Asia, Oceania, and Antarctica each have one live clickable pulse.
                 </p>
               </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 backdrop-blur-sm">
-                <p className="text-xs font-accent uppercase tracking-[0.26em] text-white/50">Lighter Rendering</p>
-                <p className="mt-3 text-sm leading-6 text-white/78">
+              <div className="rounded-[1.5rem] border border-orange-300/16 bg-[linear-gradient(135deg,rgba(251,146,60,0.16),rgba(245,158,11,0.08),rgba(255,255,255,0.04))] p-5 backdrop-blur-sm">
+                <p className="text-xs font-accent uppercase tracking-[0.26em] text-orange-100/70">Lighter Rendering</p>
+                <p className="mt-3 text-sm leading-6 text-white/84">
                   The rotation logic updates at a slower cadence and only moves a small set of continent markers, so it stays much lighter than the earlier heavy globe build.
                 </p>
               </div>
             </div>
 
-            <div className="rounded-[1.6rem] border border-cyan-300/18 bg-[linear-gradient(135deg,_rgba(255,255,255,0.12),_rgba(255,255,255,0.04))] p-5 backdrop-blur-md">
+            <div className="rounded-[1.6rem] border border-cyan-300/18 bg-[linear-gradient(135deg,rgba(34,211,238,0.18),rgba(244,114,182,0.14),rgba(251,146,60,0.12))] p-5 shadow-[0_22px_50px_rgba(0,0,0,0.22)] backdrop-blur-md">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-accent uppercase tracking-[0.28em] text-cyan-300">Current Continent</p>
+                  <p className="text-xs font-accent uppercase tracking-[0.28em] text-cyan-100/80">Current Continent</p>
                   <p className="mt-2 text-2xl font-black text-white">{selected.name}</p>
-                  <p className="mt-1 text-sm text-white/65">{selected.voices}</p>
+                  <p className="mt-1 text-sm text-white/82">{selected.voices}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setWaveKey((prev) => prev + 1)}
-                  className="rounded-full border border-cyan-200/30 bg-cyan-300/12 px-4 py-2 text-xs font-accent uppercase tracking-[0.22em] text-cyan-100 transition hover:bg-cyan-300/20"
+                  className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-accent uppercase tracking-[0.22em] text-white transition hover:bg-white/18"
                 >
                   Pulse
                 </button>
               </div>
-              <p className="mt-4 text-sm leading-6 text-white/78">{selected.message}</p>
+              <p className="mt-4 text-sm leading-6 text-white/86">{selected.message}</p>
               <div className="mt-4">
-                <div className="flex items-center justify-between text-xs font-accent uppercase tracking-[0.22em] text-white/50">
+                <div className="flex items-center justify-between text-xs font-accent uppercase tracking-[0.22em] text-white/65">
                   <span>Signal Strength</span>
                   <span>{selected.strength}%</span>
                 </div>
