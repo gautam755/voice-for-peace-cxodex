@@ -339,10 +339,46 @@ export default function Home() {
             >
               <h4 className="text-lg font-bold mb-4">Connect</h4>
               <ul className="space-y-2 text-gray-400 font-accent">
-                <li>Twitter</li>
-                <li>Instagram</li>
-                <li>Discord</li>
-                <li>Email</li>
+                <li>
+                  <a
+                    href="https://x.com/jvplive"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition hover:text-cyan-300"
+                  >
+                    X / Twitter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/voicesofpeace/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition hover:text-cyan-300"
+                  >
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.facebook.com/groups/575163933083802/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition hover:text-cyan-300"
+                  >
+                    Facebook Group
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://in.pinterest.com/search/pins/?q=voice%20for%20peace&rs=typed"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition hover:text-cyan-300"
+                  >
+                    Pinterest
+                  </a>
+                </li>
               </ul>
             </motion.div>
           </div>
