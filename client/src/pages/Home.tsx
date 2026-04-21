@@ -361,12 +361,12 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="https://www.facebook.com/groups/575163933083802/"
+                    href="https://www.tiktok.com/search?q=voice%20for%20peace"
                     target="_blank"
                     rel="noreferrer"
                     className="transition hover:text-cyan-300"
                   >
-                    Facebook Group
+                    TikTok
                   </a>
                 </li>
                 <li>
