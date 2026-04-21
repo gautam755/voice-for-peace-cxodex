@@ -103,11 +103,107 @@ const actionItems: ActionItem[] = [
     link: 'https://www.crisisgroup.org/donate',
     impact: 'Monitors 70+ conflicts',
   },
+  {
+    id: 9,
+    title: 'Emergency Ceasefire Action',
+    description: 'Add your name to a global call for an immediate ceasefire and humanitarian access',
+    type: 'petition',
+    organization: 'Amnesty International',
+    icon: '📢',
+    color: 'from-cyan-400 to-blue-500',
+    link: 'https://www.amnesty.org/en/petition/demand-a-ceasefire-by-all-parties-to-end-civilian-suffering/',
+    impact: '1M+ people mobilized',
+  },
+  {
+    id: 10,
+    title: 'Climate Justice for Pacific Families',
+    description: 'Support climate visas and safer futures for Pacific communities facing climate displacement',
+    type: 'petition',
+    organization: 'Amnesty International',
+    icon: '🌊',
+    color: 'from-teal-400 to-cyan-500',
+    link: 'https://www.amnesty.org/en/petition/provide-climate-visas-for-pacific-people/',
+    impact: 'Pacific communities centered',
+  },
+  {
+    id: 11,
+    title: 'Protect Civilians in Ukraine',
+    description: 'Demand an end to the forcible transfer of civilians and other abuses in the war in Ukraine',
+    type: 'petition',
+    organization: 'Amnesty International',
+    icon: '🛡️',
+    color: 'from-sky-400 to-indigo-500',
+    link: 'https://www.amnesty.org/en/petition/stop-the-forcible-transfer-of-civilians-in-ukraine-to-russia/',
+    impact: 'Urgent wartime action',
+  },
+  {
+    id: 12,
+    title: 'Lift the Gaza Blockade',
+    description: 'Call on governments to press for the end of the blockade and the protection of civilians',
+    type: 'petition',
+    organization: 'Amnesty International',
+    icon: '🕯️',
+    color: 'from-amber-400 to-orange-500',
+    link: 'https://www.amnesty.org/en/petition/lift-the-blockade-on-gaza-and-stop-the-genocide-2/',
+    impact: 'Humanitarian access focus',
+  },
+  {
+    id: 13,
+    title: 'Prevent Violence Before It Starts',
+    description: 'Donate to peacebuilding research and early-warning systems that help prevent conflict escalation',
+    type: 'donation',
+    organization: 'Fund for Peace',
+    icon: '🧭',
+    color: 'from-emerald-400 to-teal-500',
+    link: 'https://fundforpeace.org/get-involved/donate/',
+    impact: 'Conflict prevention worldwide',
+  },
+  {
+    id: 14,
+    title: 'Community Mediation Support',
+    description: 'Fund local dialogue and mediation services that help resolve conflict peacefully',
+    type: 'donation',
+    organization: 'Center for Dialog & Resolution',
+    icon: '💬',
+    color: 'from-fuchsia-400 to-purple-500',
+    link: 'https://www.centerforresolution.org/get-involved',
+    impact: 'Local peacebuilding support',
+  },
+  {
+    id: 15,
+    title: 'Refugee Peace & Education Fund',
+    description: 'Support refugee-led peace, education, and youth empowerment programs in Kakuma Refugee Camp',
+    type: 'donation',
+    organization: 'Peace Initiative Foundation',
+    icon: '🏕️',
+    color: 'from-lime-400 to-emerald-500',
+    link: 'https://peaceinitiativefoundation.org/',
+    impact: 'Refugee-led impact',
+  },
+  {
+    id: 16,
+    title: 'South Sudan Refugee Relief',
+    description: 'Give to education, trauma care, and women’s empowerment programs serving South Sudanese refugees',
+    type: 'donation',
+    organization: 'PEACE International',
+    icon: '🫶',
+    color: 'from-rose-400 to-orange-500',
+    link: 'https://www.peaceint.org/',
+    impact: 'Education and trauma care',
+  },
 ];
 
 export default function TakeAction() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'petition' | 'donation'>('all');
+
+  const petitionCount = actionItems.filter((item) => item.type === 'petition').length;
+  const donationCount = actionItems.filter((item) => item.type === 'donation').length;
+  const filterLabels: Record<'all' | 'petition' | 'donation', string> = {
+    all: `All (${actionItems.length})`,
+    petition: `Petition (${petitionCount})`,
+    donation: `Donation (${donationCount})`,
+  };
 
   const filteredItems =
     selectedFilter === 'all' ? actionItems : actionItems.filter((item) => item.type === selectedFilter);
@@ -171,7 +267,7 @@ export default function TakeAction() {
                   : 'bg-white/10 text-gray-300 hover:bg-white/20'
               }`}
             >
-              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              {filterLabels[filter]}
             </button>
           ))}
         </motion.div>
