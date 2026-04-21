@@ -75,6 +75,7 @@ export default function Home() {
 
       {/* Global Harmony Gallery */}
       <motion.section 
+        id="global-gallery"
         className={`${sectionShell} ${liquidBackground}`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -148,6 +149,7 @@ export default function Home() {
 
       {/* Neon Peace Wall */}
       <motion.section 
+        id="peace-wall"
         className={`${sectionShell} ${neonBackground}`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -175,6 +177,7 @@ export default function Home() {
 
       {/* Peace-Painter */}
       <motion.section 
+        id="art-studio"
         className={`${sectionShell} ${liquidBackground}`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -202,6 +205,7 @@ export default function Home() {
 
       {/* Harmony Hit Game */}
       <motion.section 
+        id="harmony-game"
         className={`${sectionShell} ${neonBackground}`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -269,6 +273,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Take Action Section */}
+      <div id="take-action">
+        <TakeAction />
+      </div>
+
       {/* Footer */}
       <footer className={`${sectionShell} ${neonBackground} py-16 text-white`}>
         <div className="relative z-10 max-w-6xl mx-auto">
@@ -294,10 +303,31 @@ export default function Home() {
             >
               <h4 className="text-lg font-bold mb-4">Features</h4>
               <ul className="space-y-2 text-gray-400 font-accent">
-                <li>Global Gallery</li>
-                <li>Peace Wall</li>
-                <li>Art Studio</li>
-                <li>Harmony Game</li>
+                <li>
+                  <a href="#global-gallery" className="transition hover:text-cyan-300">
+                    Global Gallery
+                  </a>
+                </li>
+                <li>
+                  <a href="#peace-wall" className="transition hover:text-cyan-300">
+                    Peace Wall
+                  </a>
+                </li>
+                <li>
+                  <a href="#art-studio" className="transition hover:text-cyan-300">
+                    Art Studio
+                  </a>
+                </li>
+                <li>
+                  <a href="#harmony-game" className="transition hover:text-cyan-300">
+                    Harmony Game
+                  </a>
+                </li>
+                <li>
+                  <a href="#take-action" className="transition hover:text-cyan-300">
+                    Take Action
+                  </a>
+                </li>
               </ul>
             </motion.div>
 
@@ -327,11 +357,6 @@ export default function Home() {
           </motion.div>
         </div>
       </footer>
-
-      {/* Take Action Section */}
-      <div id="take-action">
-        <TakeAction />
-      </div>
       </div>
     </div>
   );
