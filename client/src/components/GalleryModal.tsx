@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 import type { GalleryItem } from './EnhancedGallery';
 
 export function GalleryModal({
@@ -90,12 +90,16 @@ export function GalleryModal({
                 href={item.movementUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-8 block w-full rounded-full bg-white py-4 text-center text-lg font-bold text-gray-900 transition-all hover:bg-gray-100"
+                className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-white py-4 text-center text-lg font-bold text-gray-900 transition-all hover:bg-gray-100"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 Join This Movement
+                <ExternalLink className="h-5 w-5" />
               </motion.a>
+              <p className="mt-3 text-center text-sm font-accent text-white/75">
+                Opens the official movement website in a new tab
+              </p>
             </motion.div>
           </motion.div>
         </>
