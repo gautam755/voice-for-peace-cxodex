@@ -361,16 +361,6 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="https://www.tiktok.com/search?q=voice%20for%20peace"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition hover:text-cyan-300"
-                  >
-                    TikTok
-                  </a>
-                </li>
-                <li>
-                  <a
                     href="https://in.pinterest.com/search/pins/?q=voice%20for%20peace&rs=typed"
                     target="_blank"
                     rel="noreferrer"
